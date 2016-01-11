@@ -1,23 +1,37 @@
 package game.actors.controller 
 {
+	import game.actors.ActorData;
+	import render2d.utils.FastMath;
+	
 	public class MovementController extends ActorController
 	{
-		public var destinetionX:Number;
-		public var destinetionY:Number;
+		public var destinetionX:Number = 0;
+		public var destinetionY:Number = 0;
 		
-		public var originX:Number;
-		public var originY:Number;
+		public var currentX:Number = 0;
+		public var currentY:Number = 0;
 		
-		public var speed:Number = 7;
+		public var speed:Number = 100;
 		
 		public var moveAngle:Number = 0;
 		public var moveAngleRad:Number = 0;
 		
-		private static var radToDeg:Number = 180 / Math.PI;
+		private var actorData:ActorData;
 		
-		public function MovementController() 
+		public function MovementController(actorData:ActorData) 
 		{
+			super(0);
 			
+			this.actorData = actorData;
+			
+			currentX = actorData.x;
+			currentY = actorData.y;
+		}
+		
+		public function setPosition(x:Number, y:Number):void 
+		{
+			currentX = x;
+			currentY = y;
 		}
 		
 		public function moveTo(x:Number, y:Number):void 
@@ -25,38 +39,41 @@ package game.actors.controller
 			destinetionX = x;
 			destinetionY = y;
 			
-			moveAngleRad = getAngle(originX, originY, destinetionX, destinetionY);
-			moveAngle = moveAngleRad * radToDeg;
+			moveAngleRad = FastMath.angle(currentX, currentY, destinetionX, destinetionY);
+			moveAngle = FastMath.convertToDegree(moveAngleRad);
+			
+			actorData.angle = moveAngle;
+			actorData.angleRad = moveAngleRad;
 		}
 		
-		private function getAngle (x1:Number, y1:Number, x2:Number, y2:Number):Number
+		override public function update(worldStep:WorldStep):void 
 		{
-			var dx:Number = x2 - x1;
-			var dy:Number = y2 - y1;
-			return Math.atan2(dy,dx);
-		}
-		
-		public function update(worldStep:WorldStep):void 
-		{
-			var deltaX:Number = (destinetionX - originX);
-			var deltaY:Number = (destinetionY - originY);
+			var deltaX:Number = (destinetionX - currentX);
+			var deltaY:Number = (destinetionY - currentY);
 			
-			var length:Number = (deltaX * deltaX) + (deltaY * deltaY) + (1);
-			length = Math.sqrt(length);
+			var length:Number = (deltaX * deltaX) + (deltaY * deltaY)// + (1);
 			
-			var currentSpeed:Number = speed * worldStep.partOfSecond;
-			
-			var addX:Number = interpolate(deltaX, speed, length);
-			var addY:Number = interpolate(deltaY, speed, length);
-			
-			if (originX != destinetionX)
+			if (length > 0)
 			{
-				originX += addX;
-			}
+				length = Math.sqrt(length);
 				
-			if (originY != destinetionY)
-			{
-				originY += addY;
+				var currentSpeed:Number = speed * worldStep.partOfSecond;
+				
+				var addX:Number = interpolate(deltaX, currentSpeed, length);
+				var addY:Number = interpolate(deltaY, currentSpeed, length);
+				
+				if (currentX != destinetionX)
+				{
+					currentX += addX;
+				}
+					
+				if (currentY != destinetionY)
+				{
+					currentY += addY;
+				}
+				
+				actorData.x = currentX;
+				actorData.y = currentY;
 			}
 		}
 		
@@ -65,7 +82,7 @@ package game.actors.controller
 		{
 			var add:Number = interpolationFactor * delta / length;
 			
-			if (Math.abs(add) > Math.abs(delta))
+			if (FastMath.absNumber(add) > FastMath.absNumber(delta))
 				return delta;
 				
 			return add;

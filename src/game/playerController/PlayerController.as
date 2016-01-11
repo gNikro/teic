@@ -5,7 +5,7 @@ package game.playerController
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
-	import game.BulletsLayer;
+	import game.scene.layers.BulletsLayer;
 	import game.actors.Actor;
 	import render2d.core.cameras.Camera;
 	
@@ -63,7 +63,7 @@ package game.playerController
 			var x:Number = (stage.mouseX - stage.stageWidth / 2) + camera.x;
 			var y:Number = (stage.mouseY - stage.stageHeight / 2) + camera.y;
 			
-			gameUnit.moveController.moveTo(x, y);
+			//gameUnit.moveController.moveTo(x, y);
 		}
 	}
 }

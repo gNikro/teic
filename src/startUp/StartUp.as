@@ -4,14 +4,11 @@ package startUp
 	import data.AppData;
 	import display.DisplayManager;
 	import events.PlayerControllerScope;
-	import external.AssetLoader;
-	import external.AssetProgressEvent;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import game.scene.GameScene;
-	import render2d.core.gl.Driver;
 	
 	[SWF(width = '1024', height = '600', backgroundColor = '0x0', frameRate = '60')]
 	public class StartUp extends Sprite 
@@ -52,6 +49,8 @@ package startUp
 			appData.height = stage.stageHeight;
 			appData.assets = preloader.assetLoader.loadedAssets;
 			appData.stage = stage;
+			
+			removeChild(preloader);
 			
 			
 			var context3DRequester:Context3DRequester = new Context3DRequester(stage, appData);

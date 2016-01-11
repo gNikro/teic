@@ -4,11 +4,13 @@ package display.scene.layers
 
 	public class LayerBase implements IUpdatable
 	{
-		private var actorsList:Vector.<Actor> = new Vector.<Actor>();
+		public var layerId:int;
 		
-		public function LayerBase() 
+		public var actorsList:Vector.<Actor> = new Vector.<Actor>();
+		
+		public function LayerBase(layerId:int) 
 		{
-			
+			this.layerId = layerId;
 		}
 		
 		public function addActor(actor:Actor):void
@@ -18,7 +20,7 @@ package display.scene.layers
 		
 		public function removeActor(actor:Actor):void
 		{
-			
+			actorsList.removeAt(actorsList.indexOf(actor));
 		}
 		
 		public function update(worldStep:WorldStep):void 

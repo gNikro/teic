@@ -34,6 +34,7 @@ package display.scene
 			var length:Number = displayList.length;
 			for (var i:int = 0; i < length; i++)
 			{
+				displayList[i].update(worldStep);
 				driver.drawRenderable(displayList[i]);
 			}
 			

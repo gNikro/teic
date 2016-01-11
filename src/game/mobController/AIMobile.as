@@ -1,22 +1,20 @@
 package game.mobController 
 {
-	import flash.display3D.textures.Texture;
 	import game.actors.Actor;
+	import game.actors.ActorData;
+	import game.actors.ActorView;
 	
 	public class AIMobile extends Actor 
 	{
 		
-		public function AIMobile(texture:Texture) 
+		public function AIMobile(actorView:ActorView, actorData:ActorData) 
 		{
-			super(texture);
+			super(actorView, actorData);
 		}
 		
 		override public function update(worldStep:WorldStep):void 
 		{
 			super.update(worldStep);
-			
-			moveTo(0, 0);
 		}
 	}
-
 }

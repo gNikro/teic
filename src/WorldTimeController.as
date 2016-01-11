@@ -1,5 +1,6 @@
 package  
 {
+	import flash.utils.getTimer;
 	
 	public class WorldTimeController 
 	{
@@ -33,7 +34,7 @@ package
 		public function updateTime():void
 		{
 			
-			var actualTime:Number = new Date().getTime();
+			var actualTime:Number =  new Date().getTime();
 			
 			var dt:Number = actualTime - lastTime;
 			
@@ -48,6 +49,7 @@ package
 			worldStep.dt = dt;
 			//Считаем какая часть секунды прошла, т.к это нужно будет во многих вычеслениях
 			worldStep.partOfSecond = dt / 1000;
+
 		}
 		
 	}

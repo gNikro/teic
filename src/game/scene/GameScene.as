@@ -2,10 +2,19 @@ package game.scene
 {
 	import data.AppData;
 	import display.scene.SceneControllerBase;
-	import game.BulletsLayer;
+	import flash.display.Stage;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
+	import game.actors.ActorData;
+	import game.actors.controller.MovementController;
+	import game.actors.factory.ActorFactory;
+	import game.actors.factory.BulletsFactory;
+	import game.scene.layers.BulletsLayer;
 	import game.mobController.MobSpawner;
 	import game.playerController.PlayerController;
 	import game.actors.Actor;
+	import game.scene.layers.MobilesLayer;
 	import render2d.core.display.background.Background;
 	import render2d.core.materials.BaseMaterial;
 
@@ -15,6 +24,15 @@ package game.scene
 		private var playerController:PlayerController;
 		private var mobSpawner:MobSpawner;
 		private var gameSceneView:GameSceneView;
+		
+		private var moveController:MovementController;
+		private var isMouseDown:Boolean;
+		private var stage:Stage;
+		
+		
+		private var bulletsFactory:BulletsFactory;
+		private var actorFactory:ActorFactory;
+		private var playerActor:Actor;
 		
 		public function GameScene(appData:AppData) 
 		{
@@ -26,7 +44,11 @@ package game.scene
 		
 		private function initialize():void 
 		{
-			addLayer(new BulletsLayer(this, textureManager, appData));
+			var mobilesLayer:MobilesLayer = new MobilesLayer();
+			addLayer(mobilesLayer);
+			addLayer(new BulletsLayer(mobilesLayer.actorsList));
+			
+			this.stage = appData.stage;
 			
 			mobSpawner = new MobSpawner(this);
 			
@@ -39,25 +61,70 @@ package game.scene
 			background.scaleX = 1 * camera.wScreenSpaceRatio * uvScaleW;
 			background.scaleY = 1 * camera.hScreenSpaceRatio * uvScaleH;
 			
-			playerUnit = new Actor(textureManager.getTexture("sample", true));
-			playerController = new PlayerController(playerUnit, camera, appData.stage);
-			
 			gameSceneView.addRenderable(background);
-			gameSceneView.addRenderable(playerUnit);
+			
+			
+			actorFactory = new ActorFactory(textureManager);
+			bulletsFactory = new BulletsFactory(textureManager, appData);
+			
+			
+			playerActor = actorFactory.createMobile("sample");
+			addActor(playerActor, MobilesLayer.IDENT);
+			
+			
+			moveController = playerActor.getController(0) as MovementController;
+			
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		}
 		
-		override protected function updateDisplayList(worldStep:WorldStep):void 
+		private function onKeyDown(e:KeyboardEvent):void 
 		{
-			super.updateDisplayList(worldStep);
+			if (e.keyCode == Keyboard.SPACE)
+			{
+				addActor(bulletsFactory.createLinearBullet(playerActor, 0), BulletsLayer.IDENT);
+			}
+		}
+		
+		private function onMouseUp(e:MouseEvent):void 
+		{
+			isMouseDown = false;
+		}
+		
+		private function onMouseDown(e:MouseEvent):void 
+		{
+			isMouseDown = true;
+			calculateMove();
+		}
+		
+		private function calculateMove():void
+		{
+			var x:Number = (stage.mouseX - stage.stageWidth / 2) + camera.x;
+			var y:Number = (stage.mouseY - stage.stageHeight / 2) + camera.y;
 			
-			camera.x = playerUnit.x;
-			camera.y = playerUnit.y;
+			moveController.moveTo(x, y);
+		}
+		
+		override protected function updateLayers(worldStep:WorldStep):void 
+		{
+			super.updateLayers(worldStep);
+		}
+		
+		override protected function updateView(worldStep:WorldStep):void 
+		{
+			camera.x = moveController.currentX;
+			camera.y = moveController.currentY;
+			
+			super.updateView(worldStep);
 		}
 		
 		override public function update(worldStep:WorldStep):void 
 		{
-			playerController.update(worldStep);
-			mobSpawner.update(worldStep);
+			if (isMouseDown)
+			{
+				calculateMove();
+			}
 			
 			super.update(worldStep);
 		}

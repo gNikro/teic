@@ -12,12 +12,13 @@
     <movie minorVersion="0" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
+    <movie preferredSDK="AIR 20.0.0;20.0.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="D:\git\render2d\src" />
-    <class path="E:\repos\graphicscorelib\src" />
+    <class path="..\dev2\opprimendi\render2d\src" />
+    <class path="..\graphicscorelib\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -26,7 +27,7 @@
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />
-    <option inline="False" />
+    <option inline="True" />
     <option locale="" />
     <option loadConfig="" />
     <option optimize="True" />

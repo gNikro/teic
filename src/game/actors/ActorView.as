@@ -18,10 +18,11 @@ package game.actors
 		
 		private var actorData:ActorData;
 		
-		public function ActorView(actorData:ActorData) 
+		public function ActorView(actorData:ActorData, texture:BitmapTexture) 
 		{
 			super();
 			
+			this.texture = texture;
 			this.actorData = actorData;
 			
 			initialize();
@@ -43,6 +44,18 @@ package game.actors
 			
 			x = actorData.x;
 			y = actorData.y;
+		}
+		
+		override public function copyTransformTo(constantsVector:Vector.<Number>, registerIndex:int):void 
+		{
+			constantsVector[registerIndex++] = x;
+			constantsVector[registerIndex++] = -y;
+			
+			constantsVector[registerIndex++] = scaleX;
+			constantsVector[registerIndex++] = -scaleY;
+			
+			constantsVector[registerIndex++] = Math.cos(actorData.angleRad);
+			constantsVector[registerIndex++] = Math.sin(actorData.angleRad);
 		}
 	}
 

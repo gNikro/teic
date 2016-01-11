@@ -2,19 +2,16 @@ package game.actors.controller
 {
 	public class ActorController implements IUpdatable
 	{
+		public var id:int;
 		
-		public function ActorController() 
+		public function ActorController(id:int) 
 		{
-			
+			this.id = id;
 		}
-		
-		/* INTERFACE IUpdatable */
 		
 		public function update(worldStep:WorldStep):void 
 		{
 			
 		}
-		
 	}
-
 }

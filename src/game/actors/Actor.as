@@ -1,63 +1,55 @@
 package game.actors 
 {
+	import game.actors.collider.CircleCollider;
+	import game.actors.collider.Collider;
 	import game.actors.controller.ActorController;
-	import game.actors.controller.MovementController;
-	import render2d.core.display.Renderable;
 	
-	public class Actor extends Renderable implements IUpdatable
+	public class Actor implements IUpdatable
 	{
-		public var controllersList:Vector.<ActorController>
+		protected var controllersList:Vector.<ActorController>
+		protected var controllersMap:Object = {};
 		
 		public var actorData:ActorData;
 		public var actorView:ActorView;
+		public var collider:Collider;
 		
-		public var moveController:MovementController;
-		
-		public function Actor(actorView:ActorView, actorData:ActorData) 
+		public function Actor(actorView:ActorView, actorData:ActorData, collider:Collider = null) 
 		{
 			this.actorData = actorData;
-			this.unitView = unitView;
+			this.actorView = actorView;
+			
+			if (collider == null)
+				this.collider = new CircleCollider(actorData, (actorView.scaleX + actorView.scaleY) / 2);
+			else
+				this.collider = collider;
 			
 			initialize();
 		}
 		
-		public function setPosition(x:Number, y:Number):void
+		public function addController(controller:ActorController):void
 		{
-			moveController.originX = x;
-			moveController.originY = y;
-			
-			actorData.x = x;
-			actorData.y = y;
+			controllersList.push(controller);
+			controllersMap[controller.id] = controller;
 		}
 		
-		public function moveTo(x:Number, y:Number):void
+		public function getController(id:int):ActorController
 		{
-			moveController.destinetionX = x;
-			moveController.destinetionY = y;
+			return controllersMap[id];
 		}
 		
 		private function initialize():void 
 		{
-			moveController = new MovementController();
-			
-			//moveController.originX = x;
-			//moveController.originY = y;
-			//moveController.destinetionX = x;
-			//moveController.destinetionY = y;
+			controllersList = new Vector.<ActorController>();
 		}
 		
-		override public function update(worldStep:WorldStep):void
+		public function update(worldStep:WorldStep):void
 		{
 			var controllersLength:Number = controllersList.length;
+			
 			for (var i:int = 0; i < controllersLength; i++)
 			{
 				controllersList[i].update(worldStep);
 			}
-			
-			//_rotationX = moveController.moveAngle;
-			
-			//actorData.x = moveController.originX;
-			//actorData.y = moveController.originY;
 		}
 	}
 }

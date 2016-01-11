@@ -24,14 +24,14 @@ package game.mobController
 		
 		private function spawnMob():void 
 		{
-			var unit:AIMobile = new AIMobile(gameScene.textureManager.getTexture("sample", true) as Texture);
+			/*var unit:AIMobile = new AIMobile(gameScene.textureManager.getTexture("sample", true) as Texture);
 			
 			unit.setPosition(-1000 + Math.random() * 2000, -1000 + Math.random() * 2000);
 			
 			mobsList.push(unit);
 			
 			//gameScene.addRenderable(unit);
-			
+			*/
 			
 		}
 	}

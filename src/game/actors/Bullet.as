@@ -1,6 +1,6 @@
 package game.actors 
 {
-	import render2d.core.gl.texture.BitmapTexture;
+	import game.actors.controller.MovementController;
 	
 	public class Bullet extends Actor 
 	{
@@ -8,21 +8,25 @@ package game.actors
 		public var spawnTime:Number = 0;
 		public var deathTime:Number = 0;
 		
-		public function Bullet(texture:BitmapTexture) 
+		public function Bullet(bulletView:ActorView, bulletData:ActorData) 
 		{
-			super(texture);
+			super(bulletView, bulletData);
 			
-			_rotationX = Math.random() * 360
+			initialize();
+		}
+		
+		private function initialize():void 
+		{
+			//_rotationX = Math.random() * 360
+			
+			addController(new MovementController(actorData));
 		}
 		
 		override public function update(worldStep:WorldStep):void 
 		{
-			moveController.update(worldStep);
+			super.update(worldStep);
 			
-			_rotationX+=0.5 + Math.random() * 0.3;
-			
-			x = moveController.originX //+ Math.sin(_rotationX) * 15;
-			y = moveController.originY //+ Math.cos(_rotationX) * 15;
+			//_rotationX += Math.random();
 		}
 	}
 }
