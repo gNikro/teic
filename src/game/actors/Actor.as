@@ -19,7 +19,7 @@ package game.actors
 			this.actorView = actorView;
 			
 			if (collider == null)
-				this.collider = new CircleCollider(actorData, (actorView.scaleX + actorView.scaleY) / 2);
+				this.collider = new CircleCollider(actorData, (actorView.scaleX + actorView.scaleY) / 4 * 0.8);
 			else
 				this.collider = collider;
 			

@@ -1,5 +1,6 @@
 package game.actors 
 {
+	import game.actors.controller.BulletMovementController;
 	import game.actors.controller.MovementController;
 	
 	public class MobileBase extends Actor
@@ -13,7 +14,9 @@ package game.actors
 		
 		private function initialize():void 
 		{
-			addController(new MovementController(actorData));
+			var movementController:BulletMovementController = new BulletMovementController(actorData)
+			addController(movementController);
+			movementController.maxSpeed = 350;
 		}
 	}
 

@@ -3,7 +3,7 @@ package game.actors.controller
 	import game.actors.ActorData;
 	import render2d.utils.FastMath;
 	
-	public class MovementController extends ActorController
+	public class BulletMovementController extends ActorController
 	{
 		public var destinetionX:Number = 0;
 		public var destinetionY:Number = 0;
@@ -11,14 +11,17 @@ package game.actors.controller
 		public var currentX:Number = 0;
 		public var currentY:Number = 0;
 		
-		public var speed:Number = 100;
+		public var maxSpeed:Number = 100;
+		public var currentSpeed:Number = 0;
+		public var speedDumping:Number = 0.95;
+		public var speedAcceleration:Number = 0.1;
 		
 		public var moveAngle:Number = 0;
 		public var moveAngleRad:Number = 0;
 		
 		private var actorData:ActorData;
 		
-		public function MovementController(actorData:ActorData) 
+		public function BulletMovementController(actorData:ActorData) 
 		{
 			super(0);
 			
@@ -52,29 +55,48 @@ package game.actors.controller
 			var deltaY:Number = (destinetionY - currentY);
 			
 			var length:Number = (deltaX * deltaX) + (deltaY * deltaY)// + (1);
-			
-			if (length > 0)
+		
+			if (length > 5000)
 			{
-				length = Math.sqrt(length);
+				this.currentSpeed += maxSpeed * speedAcceleration;
 				
-				var currentSpeed:Number = speed * worldStep.partOfSecond;
+				if (this.currentSpeed > maxSpeed)
+					this.currentSpeed = maxSpeed;
+					
 				
-				var addX:Number = interpolate(deltaX, currentSpeed, length);
-				var addY:Number = interpolate(deltaY, currentSpeed, length);
+			}
+			else
+			{
 				
-				if (currentX != destinetionX)
+				this.currentSpeed *= speedDumping;
+				
+				if (length <= 0)
 				{
-					currentX += addX;
+					
+					return;
 				}
 					
-				if (currentY != destinetionY)
-				{
-					currentY += addY;
-				}
-				
-				actorData.x = currentX;
-				actorData.y = currentY;
 			}
+			
+			var currentSpeed:Number = this.currentSpeed * worldStep.partOfSecond;
+			
+			length = Math.sqrt(length);
+				
+			var addX:Number = interpolate(deltaX, currentSpeed, length);
+			var addY:Number = interpolate(deltaY, currentSpeed, length);
+			
+			if (currentX != destinetionX)
+			{
+				currentX += addX;
+			}
+				
+			if (currentY != destinetionY)
+			{
+				currentY += addY;
+			}
+			
+			actorData.x = currentX;
+			actorData.y = currentY;
 		}
 		
 		[Inline]

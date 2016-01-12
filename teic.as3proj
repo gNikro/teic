@@ -17,7 +17,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\dev2\opprimendi\render2d\src" />
+    <class path="D:\git\render2d\src" />
     <class path="..\graphicscorelib\src" />
   </classpaths>
   <!-- Build options -->

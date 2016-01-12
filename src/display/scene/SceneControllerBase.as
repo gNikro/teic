@@ -39,13 +39,14 @@ package display.scene
 			var layer:LayerBase = layersMap[layerId];
 			layer.addActor(actor);
 			
-			sceneView.addRenderable(actor.actorView);
+			//sceneView.addRenderable(actor.actorView);
 		}
 		
 		public function addLayer(layer:LayerBase):void
 		{
 			layers.push(layer);
 			layersMap[layer.layerId] = layer;
+			layer.sceneView = sceneView;
 		}
 		
 		public function update(worldStep:WorldStep):void 

@@ -5,6 +5,7 @@ package game.actors.factory
 	import game.actors.ActorData;
 	import game.actors.ActorView;
 	import game.actors.Bullet;
+	import game.actors.controller.BulletMovementController;
 	import game.actors.controller.MovementController;
 	import game.TexturesManager;
 	
@@ -23,21 +24,31 @@ package game.actors.factory
 		{
 			var actorData:ActorData = new ActorData();
 			var actorView:ActorView = new ActorView(actorData, textureManager.getTexture("sample", true));
+			
+			actorView.scaleX = 15;
+			actorView.scaleY = 15;
+			
 			var bullet:Bullet = new Bullet(actorView, actorData);
+			bullet.owner = from;
+		
 			
-			actorView.scaleX = actorView.scaleY = 15;
 			
-			var movementController:MovementController = bullet.getController(0) as MovementController;
+			
+			var movementController:BulletMovementController = bullet.getController(0) as BulletMovementController;
+			var fromMovementController:BulletMovementController = from.getController(0) as BulletMovementController;
+			
 			
 			movementController.setPosition(from.actorData.x, from.actorData.y);
-			movementController.speed = 150;
+			movementController.maxSpeed = 1550 + Math.random() * 100 + fromMovementController.currentSpeed;
+			movementController.currentSpeed = fromMovementController.currentSpeed  +5;
+			movementController.speedAcceleration = 0.008;
 			
-			var x:Number = 1000;
+			var x:Number = 10000;
 			var y:Number = 0;
 			var newX:Number = 0;
 			var newY:Number = 0;
 			
-			var fromMovementController:MovementController = from.getController(0) as MovementController;
+			
 
 			var cosA:Number = Math.cos(fromMovementController.moveAngleRad + directionAngle);
 			var sinA:Number = Math.sin(fromMovementController.moveAngleRad + directionAngle);

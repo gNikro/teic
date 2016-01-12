@@ -19,11 +19,6 @@ package game.scene.layers
 			this.targetsList = targetsList;
 		}
 		
-		override public function removeActor(actor:Actor):void 
-		{
-			super.removeActor(actor);
-		}
-		
 		override public function update(worldStep:WorldStep):void 
 		{
 			var i:int;
@@ -34,7 +29,8 @@ package game.scene.layers
 			{
 				var bullet:Bullet = actorsList[i] as Bullet;
 				
-				bullet.update(worldStep);
+				bullet.update(worldStep);		
+				
 				
 				if (bullet.deathTime < worldStep.time)
 				{
@@ -45,12 +41,14 @@ package game.scene.layers
 				{
 					for (var j:int = 0; j < targetsLength; j++)
 					{
-						if (bullet.collider.collideWith(targetsList[j].collider))
+						if (bullet.owner != targetsList[j] && bullet.collider.collideWith(targetsList[j].collider))
 						{     
 							toRemove.push(bullet);
 						}
 					}
 				}
+				
+				
 			}
 			
 			var toRemoveLength:Number = toRemove.length;

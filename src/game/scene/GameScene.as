@@ -7,6 +7,7 @@ package game.scene
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
 	import game.actors.ActorData;
+	import game.actors.controller.BulletMovementController;
 	import game.actors.controller.MovementController;
 	import game.actors.factory.ActorFactory;
 	import game.actors.factory.BulletsFactory;
@@ -17,6 +18,7 @@ package game.scene
 	import game.scene.layers.MobilesLayer;
 	import render2d.core.display.background.Background;
 	import render2d.core.materials.BaseMaterial;
+	import render2d.utils.FastMath;
 
 	public class GameScene extends SceneControllerBase
 	{
@@ -25,7 +27,7 @@ package game.scene
 		private var mobSpawner:MobSpawner;
 		private var gameSceneView:GameSceneView;
 		
-		private var moveController:MovementController;
+		private var moveController:BulletMovementController;
 		private var isMouseDown:Boolean;
 		private var stage:Stage;
 		
@@ -71,8 +73,31 @@ package game.scene
 			playerActor = actorFactory.createMobile("sample");
 			addActor(playerActor, MobilesLayer.IDENT);
 			
+			var xx:Number = -3 * 250;
+			var yy:Number = -3 * 250;
+			for (var i:int = 0; i < 7; i++)
+			{
+				for (var j:int = 0; j < 7; j++)
+				{
+					var actor:Actor = actorFactory.createActorWithTexture("sample");
+					//(actor.getController(0) as MovementController).currentX = xx;
+					//(actor.getController(0) as MovementController).currentY = yy;
+					
+					actor.actorData.x = xx;
+					actor.actorData.y = yy;
+					
+					addActor(actor, MobilesLayer.IDENT);
+					
+					xx += 250;
+				
+				}
+				
+				xx = -3 * 250;
+				yy += 250;
+			}
 			
-			moveController = playerActor.getController(0) as MovementController;
+			
+			moveController = playerActor.getController(0) as BulletMovementController;
 			
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
@@ -83,7 +108,14 @@ package game.scene
 		{
 			if (e.keyCode == Keyboard.SPACE)
 			{
-				addActor(bulletsFactory.createLinearBullet(playerActor, 0), BulletsLayer.IDENT);
+				addActor(bulletsFactory.createLinearBullet(playerActor, FastMath.convertToRadian(-5+Math.random() * 10)), BulletsLayer.IDENT);
+			}
+			else if (e.keyCode == Keyboard.Q)
+			{
+				for (var i:int = 0; i < 90; i++)
+				{
+					addActor(bulletsFactory.createLinearBullet(playerActor, FastMath.convertToRadian(i * 4)), BulletsLayer.IDENT);
+				}
 			}
 		}
 		

@@ -34,8 +34,8 @@ package game.actors
 			material = new BaseMaterial(texture);
 			material.samplerData = sampler;
 			
-			scaleX = 100;
-			scaleY = 100;
+			scaleX = 50;
+			scaleY = 50;
 		}
 		
 		override public function update(worldStep:WorldStep):void 
@@ -54,6 +54,7 @@ package game.actors
 			constantsVector[registerIndex++] = scaleX;
 			constantsVector[registerIndex++] = -scaleY;
 			
+			//trace(actorData.angle, actorData.angleRad);
 			constantsVector[registerIndex++] = Math.cos(actorData.angleRad);
 			constantsVector[registerIndex++] = Math.sin(actorData.angleRad);
 		}

@@ -1,5 +1,6 @@
 package display.scene.layers 
 {
+	import display.scene.SceneViewBase;
 	import game.actors.Actor;
 
 	public class LayerBase implements IUpdatable
@@ -7,6 +8,8 @@ package display.scene.layers
 		public var layerId:int;
 		
 		public var actorsList:Vector.<Actor> = new Vector.<Actor>();
+		
+		public var sceneView:SceneViewBase;
 		
 		public function LayerBase(layerId:int) 
 		{
@@ -16,11 +19,13 @@ package display.scene.layers
 		public function addActor(actor:Actor):void
 		{
 			actorsList.push(actor);
+			sceneView.addRenderable(actor.actorView);
 		}
 		
 		public function removeActor(actor:Actor):void
 		{
 			actorsList.removeAt(actorsList.indexOf(actor));
+			sceneView.removeRenderable(actor.actorView);
 		}
 		
 		public function update(worldStep:WorldStep):void 

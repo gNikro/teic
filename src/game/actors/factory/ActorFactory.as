@@ -3,6 +3,7 @@ package game.actors.factory
 	import game.actors.Actor;
 	import game.actors.ActorData;
 	import game.actors.ActorView;
+	import game.actors.controller.BulletMovementController;
 	import game.actors.controller.MovementController;
 	import game.actors.MobileBase;
 	import game.TexturesManager;
@@ -28,7 +29,8 @@ package game.actors.factory
 		public function createMobileActor(textureName:String):Actor
 		{
 			var actor:Actor = createActorWithTexture(textureName);
-			actor.addController(new MovementController(actor.actorData));
+			//actor.addController(new MovementController(actor.actorData));
+			actor.addController(new BulletMovementController(actor.actorData));
 			
 			return actor;
 		}
@@ -37,6 +39,7 @@ package game.actors.factory
 		{
 			var actorData:ActorData = new ActorData();
 			var actorView:ActorView = new ActorView(actorData, textureManager.getTexture("sample", true));
+		
 			var actor:Actor = new Actor(actorView, actorData);
 			
 			return actor;
