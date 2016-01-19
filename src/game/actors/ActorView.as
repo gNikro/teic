@@ -3,6 +3,7 @@ package game.actors
 	import flash.display3D.Context3DMipFilter;
 	import flash.display3D.Context3DTextureFilter;
 	import flash.display3D.Context3DWrapMode;
+	import render2d.core.display.BlendMode;
 	import render2d.core.display.Renderable;
 	import render2d.core.gl.texture.BitmapTexture;
 	import render2d.core.materials.BaseMaterial;
@@ -32,10 +33,11 @@ package game.actors
 		{
 			geometry = geom;
 			material = new BaseMaterial(texture);
+			material.blendMode = BlendMode.ALPHA2;
 			material.samplerData = sampler;
 			
-			scaleX = 50;
-			scaleY = 50;
+			scaleX = 512;
+			scaleY = 512;
 		}
 		
 		override public function update(worldStep:WorldStep):void 
@@ -49,10 +51,10 @@ package game.actors
 		override public function copyTransformTo(constantsVector:Vector.<Number>, registerIndex:int):void 
 		{
 			constantsVector[registerIndex++] = x;
-			constantsVector[registerIndex++] = -y;
+			constantsVector[registerIndex++] = y;
 			
 			constantsVector[registerIndex++] = scaleX;
-			constantsVector[registerIndex++] = -scaleY;
+			constantsVector[registerIndex++] = scaleY;
 			
 			//trace(actorData.angle, actorData.angleRad);
 			constantsVector[registerIndex++] = Math.cos(actorData.angleRad);

@@ -60,24 +60,26 @@ package game.scene
 			var uvScaleH:Number = appData.height / 2048;
 			
 			background.resize(appData.width, appData.height, uvScaleW, uvScaleH);
-			background.scaleX = 1 * camera.wScreenSpaceRatio * uvScaleW;
-			background.scaleY = 1 * camera.hScreenSpaceRatio * uvScaleH;
+			background.scaleX = 1 * camera.projection.scaleX * uvScaleW;
+			background.scaleY = 1 * camera.projection.scaleY * uvScaleH;
 			
-			gameSceneView.addRenderable(background);
+			//gameSceneView.addRenderable(background);
 			
 			
 			actorFactory = new ActorFactory(textureManager);
 			bulletsFactory = new BulletsFactory(textureManager, appData);
 			
 			
-			playerActor = actorFactory.createMobile("sample");
+			playerActor = actorFactory.createMobile("shape");
+			playerActor.actorView.scaleX = 0;
+			
 			addActor(playerActor, MobilesLayer.IDENT);
 			
-			var xx:Number = -3 * 250;
-			var yy:Number = -3 * 250;
-			for (var i:int = 0; i < 7; i++)
+			var xx:Number = 0//-3 * 100;
+			var yy:Number = 0//-3 * 100;
+			for (var i:int = 0; i < 1; i++)
 			{
-				for (var j:int = 0; j < 7; j++)
+				for (var j:int = 0; j < 1; j++)
 				{
 					var actor:Actor = actorFactory.createActorWithTexture("sample");
 					//(actor.getController(0) as MovementController).currentX = xx;
@@ -88,12 +90,12 @@ package game.scene
 					
 					addActor(actor, MobilesLayer.IDENT);
 					
-					xx += 250;
+					xx += 100;
 				
 				}
 				
-				xx = -3 * 250;
-				yy += 250;
+				xx = -3 * 100;
+				yy += 100;
 			}
 			
 			

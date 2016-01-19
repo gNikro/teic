@@ -10,7 +10,7 @@ package startUp
 	import flash.events.Event;
 	import game.scene.GameScene;
 	
-	[SWF(width = '1024', height = '600', backgroundColor = '0x0', frameRate = '60')]
+	[SWF(width = '1024', height = '600', backgroundColor = '0xCCCCCC', frameRate = '60')]
 	public class StartUp extends Sprite 
 	{
 		private var preloader:startUp.Preloader;
@@ -51,7 +51,6 @@ package startUp
 			appData.stage = stage;
 			
 			removeChild(preloader);
-			
 			
 			var context3DRequester:Context3DRequester = new Context3DRequester(stage, appData);
 			context3DRequester.addEventListener(Event.COMPLETE, onContextReady);

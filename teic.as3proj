@@ -17,17 +17,17 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="D:\git\render2d\src" />
+    <class path="..\dev2\opprimendi\render2d\src" />
     <class path="..\graphicscorelib\src" />
   </classpaths>
   <!-- Build options -->
   <build>
     <option accessible="False" />
-    <option advancedTelemetry="False" />
+    <option advancedTelemetry="True" />
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />
-    <option inline="True" />
+    <option inline="False" />
     <option locale="" />
     <option loadConfig="" />
     <option optimize="True" />

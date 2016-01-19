@@ -20,7 +20,7 @@ package game.actors.factory
 		public function createMobile(textureName:String):MobileBase
 		{
 			var actorData:ActorData = new ActorData();
-			var actorView:ActorView = new ActorView(actorData, textureManager.getTexture("sample", true));
+			var actorView:ActorView = new ActorView(actorData, textureManager.getTexture(textureName, true));
 			var actor:MobileBase = new MobileBase(actorView, actorData);
 			
 			return actor;
