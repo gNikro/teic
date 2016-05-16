@@ -3,6 +3,8 @@ package
 	import data.AppData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.media.StageWebView;
+	import flash.media.StageWebView;
 	import game.scene.GameScene;
 	import render2d.core.gl.Driver;
 	
@@ -15,6 +17,7 @@ package
 		
 		public function Main() 
 		{
+			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}

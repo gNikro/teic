@@ -32,8 +32,7 @@ package startUp
 		{
 			assetLoader.addToQueue("assets/bg.jpg");
 			assetLoader.addToQueue("assets/sample.jpg");
-			assetLoader.addToQueue("assets/shape.png");
-			assetLoader.addToQueue("assets/doge.png");
+			
 			
 			assetLoader.load();
 		}

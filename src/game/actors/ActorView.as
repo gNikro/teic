@@ -36,8 +36,8 @@ package game.actors
 			material.blendMode = BlendMode.ALPHA2;
 			material.samplerData = sampler;
 			
-			scaleX = 512;
-			scaleY = 512;
+			scaleX = 50;
+			scaleY = 50;
 		}
 		
 		override public function update(worldStep:WorldStep):void 
