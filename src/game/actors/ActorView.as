@@ -47,19 +47,5 @@ package game.actors
 			x = actorData.x;
 			y = actorData.y;
 		}
-		
-		override public function copyTransformTo(constantsVector:Vector.<Number>, registerIndex:int):void 
-		{
-			constantsVector[registerIndex++] = x;
-			constantsVector[registerIndex++] = y;
-			
-			constantsVector[registerIndex++] = scaleX;
-			constantsVector[registerIndex++] = scaleY;
-			
-			//trace(actorData.angle, actorData.angleRad);
-			constantsVector[registerIndex++] = Math.cos(actorData.angleRad);
-			constantsVector[registerIndex++] = Math.sin(actorData.angleRad);
-		}
 	}
-
 }
